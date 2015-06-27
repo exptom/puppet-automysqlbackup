@@ -3,7 +3,7 @@
 BIN_FILE=/usr/local/bin/automysqlbackup
 
 if `test -x $BIN_FILE`; then
-	$BIN_FILE <%= @etc_file_real %>
+	$BIN_FILE <%= @etc_file_real %>  > /dev/null 2>&1
 	<% if @cron_set_permissions -%>
 	chown -R <%= @backup_dir_owner -%>:<%= @backup_dir_group -%> <%= @backup_dir_real %>
 	find <%= @backup_dir_real %>/* -type f -exec chmod <%= @backup_file_perms -%> {} \;
