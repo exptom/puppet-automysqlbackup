@@ -1991,6 +1991,13 @@ method_backup () {
 	fi
 	# <- postbackup commands
 
+	# prevent cron for return error code when password warning is in log file
+	if [[ -s "$log_errfile" ]]; then
+    		sedtmpfile="/tmp/$(basename $0).$$.tmp"
+    		grep -v "Warning: Using a password on the command line interface can be insecure." "$log_errfile" > $sedtmpfile
+    		mv $sedtmpfile $log_errfile
+  	fi
+
 	if [[ -s "$log_errfile" ]];then status=1; else status=0; fi
 
 	exit ${status}
